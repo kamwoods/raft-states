@@ -1,0 +1,22 @@
+release:
+  github:
+    owner: kamwoods
+    repo: raft-states
+manifest:
+  version: 2
+  name: raft
+  base_dir: raft
+  modes:
+    - name: addon
+      state: raft.addon
+    - name: dedicated
+      state: raft.dedicated
+      default: true
+  supported_os:
+    - id: ubuntu
+      release: 20.04
+    - id: ubuntu
+      release: 22.04
+  saltstack:
+    pillars:
+      raft_user_template: "{{ .User }}"

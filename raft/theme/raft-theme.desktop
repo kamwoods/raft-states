@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=raft-theme
+Comment=Bash script to apply raft theme on start
+Exec=/usr/share/raft/raft-theme.sh
+Icon=/usr/share/raft/resources/images/raftinstall.png
+Categories=System;

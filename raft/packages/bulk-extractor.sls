@@ -1,0 +1,96 @@
+{% set files = ['build_stoplist.py', 'bulk_diff.py', 'cda_tool.py', 'post_process_exif.py'] %}
+{% if grains['oscodename'] == 'focal' %}
+  {% set py_ver = 'python3.8' %}
+{% elif grains['oscodename'] == 'jammy' %}
+  {% set py_ver = 'python3.10' %}
+{% endif %}
+
+include:
+  - raft.packages.build-essential
+  - raft.packages.libssl-dev
+  - raft.packages.flex
+  - raft.packages.libewf2
+  - raft.packages.libewf-dev
+  - raft.packages.libexpat1-dev
+  - raft.packages.libxml2-utils
+  - raft.packages.libtool
+  - raft.packages.pkg-config
+  - raft.packages.zlib1g-dev
+  - raft.packages.make
+  - raft.packages.git
+
+bulk-extractor-source:
+  git.latest:
+    - name: https://github.com/simsong/bulk_extractor
+    - target: /usr/local/src/bulk_extractor
+    - user: root
+    - rev: main
+    - submodules: True
+    - force_clone: True
+    - force_reset: True
+    - require:
+      - sls: raft.packages.build-essential
+      - sls: raft.packages.libssl-dev
+      - sls: raft.packages.flex
+      - sls: raft.packages.libewf2
+      - sls: raft.packages.libewf-dev
+      - sls: raft.packages.libexpat1-dev
+      - sls: raft.packages.libxml2-utils
+      - sls: raft.packages.libtool
+      - sls: raft.packages.pkg-config
+      - sls: raft.packages.zlib1g-dev
+      - sls: raft.packages.make
+      - sls: raft.packages.git
+
+bulk-extractor-build:
+  cmd.run:
+    - names:
+      - ./bootstrap.sh
+      - ./configure
+      - make -s
+      - make install -s
+    - cwd: /usr/local/src/bulk_extractor
+    - require:
+      - git: bulk-extractor-source
+
+{% for file in files %}
+
+bulk-extractor-{{ file }}:
+  file.managed:
+    - name: /usr/local/bin/{{ file }}
+    - source: /usr/local/src/bulk_extractor/python/{{ file }}
+    - user: root
+    - group: root
+    - makedirs: True
+    - mode: 0755
+    - require:
+      - git: bulk-extractor-source
+
+{% endfor %}
+
+bulk-extractor-identify-filenames:
+  file.managed:
+    - name: /usr/local/bin/identify_filenames.py
+    - source: salt://raft/files/identify_filenames.py
+    - user: root
+    - group: root
+    - mode: 0755
+    - require:
+      - git: bulk-extractor-source
+
+bulk-extractor-bulk-extractor-reader:
+  file.managed:
+    - name: /usr/local/lib/{{ py_ver }}/dist-packages/bulk_extractor_reader.py
+    - source: /usr/local/src/bulk_extractor/python/bulk_extractor_reader.py
+    - user: root
+    - group: root
+    - makedirs: True
+    - mode: 0644
+    - require:
+      - git: bulk-extractor-source
+
+bulk-extractor-cleanup:
+  file.absent:
+    - name: /usr/local/src/bulk_extractor
+    - require:
+      - cmd: bulk-extractor-build

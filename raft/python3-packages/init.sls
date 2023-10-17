@@ -1,0 +1,64 @@
+include:
+  - raft.python3-packages.pip
+  - raft.python3-packages.analyzemft
+  - raft.python3-packages.argparse
+  - raft.python3-packages.bagit
+  - raft.python3-packages.brunnhilde
+  - raft.python3-packages.configobj
+  - raft.python3-packages.construct
+  - raft.python3-packages.dfxml-python
+  - raft.python3-packages.docopt
+  - raft.python3-packages.et_xmlfile
+  - raft.python3-packages.fpdf2
+  - raft.python3-packages.jdcal
+  - raft.python3-packages.lxml
+  - raft.python3-packages.matplotlib
+  - raft.python3-packages.openpyxl
+  - raft.python3-packages.opf-fido
+  - raft.python3-packages.path
+  - raft.python3-packages.pefile
+  - raft.python3-packages.pyicu
+  - raft.python3-packages.python-dateutil
+  - raft.python3-packages.python-evtx
+  - raft.python3-packages.python-registry
+  - raft.python3-packages.pytsk3
+  - raft.python3-packages.regrippy
+  - raft.python3-packages.setuptools
+  - raft.python3-packages.six
+  - raft.python3-packages.unicodecsv
+  - raft.python3-packages.wheel
+  - raft.python3-packages.jinja2
+
+raft-python3-packages:
+  test.nop:
+    - name: raft-python3-packages
+    - require:
+      - sls: raft.python3-packages.pip
+      - sls: raft.python3-packages.analyzemft
+      - sls: raft.python3-packages.argparse
+      - sls: raft.python3-packages.bagit
+      - sls: raft.python3-packages.brunnhilde
+      - sls: raft.python3-packages.configobj
+      - sls: raft.python3-packages.construct
+      - sls: raft.python3-packages.dfxml-python
+      - sls: raft.python3-packages.docopt
+      - sls: raft.python3-packages.et_xmlfile
+      - sls: raft.python3-packages.fpdf2
+      - sls: raft.python3-packages.jdcal
+      - sls: raft.python3-packages.lxml
+      - sls: raft.python3-packages.matplotlib
+      - sls: raft.python3-packages.openpyxl
+      - sls: raft.python3-packages.opf-fido
+      - sls: raft.python3-packages.path
+      - sls: raft.python3-packages.pefile
+      - sls: raft.python3-packages.pyicu
+      - sls: raft.python3-packages.python-dateutil
+      - sls: raft.python3-packages.python-evtx
+      - sls: raft.python3-packages.python-registry
+      - sls: raft.python3-packages.pytsk3
+      - sls: raft.python3-packages.regrippy
+      - sls: raft.python3-packages.setuptools
+      - sls: raft.python3-packages.six
+      - sls: raft.python3-packages.unicodecsv
+      - sls: raft.python3-packages.wheel
+      - sls: raft.python3-packages.jinja2
